@@ -1,0 +1,10 @@
+.animatedBar__parent{
+  height: 10px;
+  width: 100%;
+}
+
+.animatedBar__child {
+  height: 100%; 
+  transition: width 1s ease-in-out; /* Animation: change width over 1 second */
+  background-color: #4CAF50; /* Set your desired color for the bar */
+}
