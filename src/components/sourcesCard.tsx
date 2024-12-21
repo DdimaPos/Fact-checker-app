@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Card, CardContent, CardTitle } from "./ui/card";
-
 interface Source {
   sourceLogo: string | null;
   sourceUrl: string;

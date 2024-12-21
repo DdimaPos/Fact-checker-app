@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { SearchBar, DataCard, SourcesCard, NothingToShow } from "./components";
+import { SearchBar, DataCard, SourcesCard, NothingToShow, Loader} from "./components";
 
 type FinalResult = {
   overallTrustRating: number; // e.g., 59
@@ -26,8 +26,16 @@ const App: React.FC = () => {
   const [displayData, setDisplayData] = useState(false);
   const [dataToSend, setDataToSend] = useState<DataToSend | null>(null);
   const [finalResult, setFinalResult] = useState<FinalResult | null>(null);
+  const [isDisappearing, setIsDisappearing] = useState(false); // New state
+  const [isLoading, setIsLoading]= useState(false);
+
   const processInput = (input: string) => {
-    setDisplayData(false)
+    setIsDisappearing(true);
+    setTimeout(() => {
+      setDisplayData(false); // Remove cards after fade-out
+      setIsLoading(true);
+      setIsDisappearing(false); // Reset disappearing state
+    }, 200); // Mat
     const data = input.startsWith("http")
       ? { url: input, text: null }
       : { url: null, text: input };
@@ -36,7 +44,7 @@ const App: React.FC = () => {
     fetchResult(data); // Send the data immediately
   };
   const fetchResult = async (data: DataToSend) => {
-    console.log(dataToSend)
+    console.log(dataToSend);
     console.log("Send Data:", data);
     /*try {
       let result = await fetch("link", {
@@ -53,10 +61,14 @@ const App: React.FC = () => {
       console.error(err.message);
 
       setDisplayData(true);
+    }finally{
+      setIsLoading(false);
     }*/
-    setTimeout(()=>{
-      setDisplayData(true)
-    }, 500)
+    setTimeout(() => {
+      setFinalResult(null);
+      setDisplayData(true);
+      setIsLoading(false);
+    }, 2000);
   };
   ///for extension's right click
   useEffect(() => {
@@ -74,8 +86,9 @@ const App: React.FC = () => {
         };
 
         setMessage(request.selectionText || request.pageUrl || "No content");
-        setDataToSend(data); 
-        fetchResult(data); 
+        setDataToSend(data);
+        setIsLoading(true);
+        fetchResult(data);
 
         sendResponse({ status: "Message received in App.tsx" });
       };
@@ -130,30 +143,32 @@ const App: React.FC = () => {
     <div className="max-w-[1000px] m-auto flex flex-col">
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">Fact checker</h1>
       <SearchBar onClick={processInput} />
-      {displayData ? (
-        <div className="flex mt-4 flex-wrap justify-center gap-4">
+      {isLoading ? (
+        <Loader /> // Show loader while request is being processed
+      ) :displayData ? (
+        <div className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}>
           <div className="flex flex-col gap-10">
             <DataCard
               title="Overall solidity rating"
               rating={backendResponse.trustRating}
-              className="slide-up delay-1"
+              className="opacity-0 slide-up delay-1"
             />
             <DataCard
               title="Clickbait rating"
               rating={backendResponse.clickbaitRating}
-              className="slide-up delay-2"
+              className="opacity-0 slide-up delay-2"
             />
           </div>
           <div className="flex flex-col gap-10">
             <SourcesCard
               title="Sources with similar information"
               sources={backendResponse.sources[0]}
-              className="slide-up delay-3"
+              className="opacity-0 slide-up delay-3"
             />
             <SourcesCard
               title="Sources with diverging information"
               sources={backendResponse.sources[1]}
-              className="slide-up delay-4"
+              className="opacity-0 slide-up delay-4"
             />
           </div>
         </div>
