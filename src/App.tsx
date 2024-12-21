@@ -27,6 +27,7 @@ const App: React.FC = () => {
   const [dataToSend, setDataToSend] = useState<DataToSend | null>(null);
   const [finalResult, setFinalResult] = useState<FinalResult | null>(null);
   const processInput = (input: string) => {
+    setDisplayData(false)
     const data = input.startsWith("http")
       ? { url: input, text: null }
       : { url: null, text: input };
@@ -37,7 +38,7 @@ const App: React.FC = () => {
   const fetchResult = async (data: DataToSend) => {
     console.log(dataToSend)
     console.log("Send Data:", data);
-    try {
+    /*try {
       let result = await fetch("link", {
         method: "POST",
         headers: {
@@ -50,7 +51,12 @@ const App: React.FC = () => {
       setDisplayData(true);
     } catch (err: any) {
       console.error(err.message);
-    }
+
+      setDisplayData(true);
+    }*/
+    setTimeout(()=>{
+      setDisplayData(true)
+    }, 500)
   };
   ///for extension's right click
   useEffect(() => {
@@ -128,22 +134,26 @@ const App: React.FC = () => {
         <div className="flex mt-4 flex-wrap justify-center gap-4">
           <div className="flex flex-col gap-10">
             <DataCard
-              title="Overall trust rating"
+              title="Overall solidity rating"
               rating={backendResponse.trustRating}
+              className="slide-up delay-1"
             />
             <DataCard
               title="Clickbait rating"
               rating={backendResponse.clickbaitRating}
+              className="slide-up delay-2"
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-10">
             <SourcesCard
-              title="Relevant Sources"
+              title="Sources with similar information"
               sources={backendResponse.sources[0]}
+              className="slide-up delay-3"
             />
             <SourcesCard
-              title="Controvertial Sources"
+              title="Sources with diverging information"
               sources={backendResponse.sources[1]}
+              className="slide-up delay-4"
             />
           </div>
         </div>

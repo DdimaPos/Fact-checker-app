@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import "./rating.css"
+import { cn } from "@/lib/utils";
 interface Props{
   title: string,
-  rating: number
+  rating: number,
+  className?: string 
 }
-export const DataCard = ({title, rating}: Props) => {
+export const DataCard = ({title, rating, className}: Props) => {
   const [barWidth, setBarWidth] = useState(0);
   setTimeout(() => {
     setBarWidth(rating);
   }, 0);
   const barColor = `hsl(${barWidth}, 70%, 45%)`;
   return (
-    <div>
+    <div className={cn(className, "")}>
       <Card className="w-[400px] text-foreground">
         <CardHeader>
           <CardTitle className="w-fit m-auto font-bold text-[25px]">

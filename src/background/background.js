@@ -26,7 +26,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
       height: 800,
     });
   }
-  console.log("window created");
+  //console.log("window created");
   setTimeout(() => {
     chrome.runtime.sendMessage({
       menuItemId,
