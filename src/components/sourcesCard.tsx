@@ -28,7 +28,7 @@ export const SourcesCard = ({ title, sources }: Props) => {
                   <a className="text-[18px]" href={source.sourceUrl}>{source.sourceName}</a>
                 </div>
                 <div
-                  className={`rounded-[10px] p-5 text-white text-[12px] ${sources.controversial ? "bg-primary" : "bg-secondary"}`}
+                  className={`rounded-[10px] p-5 text-white text-[12px] ${sources.controversial ? "bg-primary" : "bg-destructive"}`}
                 >
                   {source.text}
                 </div>

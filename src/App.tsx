@@ -1,22 +1,76 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { SearchBar, DataCard, SourcesCard } from "./components";
-import { Sources } from "./types/Source";
+import { SearchBar, DataCard, SourcesCard, NothingToShow } from "./components";
+
+type FinalResult = {
+  overallTrustRating: number; // e.g., 59
+  clickbaitRating: number; // e.g., 100
+  sources: {
+    sourceData: {
+      sourceLogo: string; // e.g., logo URL
+      sourceUrl: string; // e.g., URL to the source
+      sourceName: string; // e.g., "Google"
+      text: string; // Content or summary from the source
+    }[];
+    controversial: boolean; // Flag indicating if the sources are controversial
+  }[];
+};
+
+type DataToSend = {
+  url: string | null;
+  text: string | null;
+};
 
 const App: React.FC = () => {
   const [message, setMessage] = useState<string | null>(null);
+  const [displayData, setDisplayData] = useState(false);
+  const [dataToSend, setDataToSend] = useState<DataToSend | null>(null);
+  const [finalResult, setFinalResult] = useState<FinalResult | null>(null);
+  const processInput = (input: string) => {
+    const data = input.startsWith("http")
+      ? { url: input, text: null }
+      : { url: null, text: input };
 
+    setDataToSend(data); // Update state for reference
+    fetchResult(data); // Send the data immediately
+  };
+  const fetchResult = async (data: DataToSend) => {
+    console.log(dataToSend)
+    console.log("Send Data:", data);
+    try {
+      let result = await fetch("link", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      let recievedData = await result.json();
+      setFinalResult(recievedData);
+      setDisplayData(true);
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+  ///for extension's right click
   useEffect(() => {
-    //check if chrome is undefined - then I run it as site
     if (typeof chrome !== "undefined" && chrome.runtime) {
-      //listen for messages from the background script
       const messageListener = (
         request: any,
-        sender: chrome.runtime.MessageSender,
+        _sender: chrome.runtime.MessageSender,
         sendResponse: (response: any) => void,
       ) => {
-        console.log("Message received from:", sender.tab?.url);
-        setMessage(request.selectionText || request.linkUrl || "No content");
+        console.log("Message received from:", request.pageUrl);
+
+        const data = {
+          url: request.pageUrl,
+          text: request.selectionText,
+        };
+
+        setMessage(request.selectionText || request.pageUrl || "No content");
+        setDataToSend(data); 
+        fetchResult(data); 
+
         sendResponse({ status: "Message received in App.tsx" });
       };
 
@@ -27,54 +81,75 @@ const App: React.FC = () => {
       };
     }
   }, []);
-
-  ///source from backend - mock data
-  const sources1: Sources = {
-    sourceData: [
+  console.log(finalResult);
+  const backendResponse = {
+    trustRating: 59,
+    clickbaitRating: 100,
+    sources: [
       {
-        sourceLogo:
-          "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png?width=500&height=438&name=McDonalds_Golden_Arches.svg.png",
-        sourceUrl: "https://www.google.com",
-        sourceName: "Google",
-        text: "lorem ipsum dolor",
+        sourceData: [
+          {
+            sourceLogo:
+              "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png",
+            sourceUrl: "https://www.google.com",
+            sourceName: "Google",
+            text: "lorem ipsum dolor",
+          },
+          {
+            sourceLogo:
+              "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png",
+            sourceUrl: "https://www.google.com",
+            sourceName: "Google",
+            text: "Detailed description or excerpt from the source",
+          },
+        ],
+        controversial: true,
       },
       {
-        sourceLogo:
-          "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png?width=500&height=438&name=McDonalds_Golden_Arches.svg.png",
-        sourceUrl: "https://www.google.com",
-        sourceName: "Google",
-        text: "lorem ipsum dolor Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse maximus non magna eu commodo. Nulla facilisi. Aliquam non aliquam ante. Morbi pellentesque, urna sit amet ornare sodales, tellus elit suscipit augue, sed hendrerit nisl lorem eget arcu. Suspendisse lacinia, tellus consectetur malesuada lacinia, nunc lacus feugiat orci, ut dictum nisi neque fermentum est. In imperdiet et nibh in ornare. Morbi quis tempor enim, nec scelerisque nunc. Duis scelerisque massa non magna volutpat malesuada. Vestibulum vitae commodo mauris, sit amet viverra turpis. Maecenas at enim fermentum, consequat ante a, interdum ante. Quisque vel porta sapien, ac ullamcorper ante. Morbi non porta tortor. In non quam elementum, lobortis nisl vitae, pharetra lorem. Donec id consequat lacus, at dictum mi.",
+        sourceData: [
+          {
+            sourceLogo:
+              "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png",
+            sourceUrl: "https://www.google.com",
+            sourceName: "Google",
+            text: "lorem ipsum dolor",
+          },
+        ],
+        controversial: false,
       },
     ],
-    controversial: true,
-  };
-  const sources2: Sources = {
-    sourceData: [
-      {
-        sourceLogo:
-          "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png?width=500&height=438&name=McDonalds_Golden_Arches.svg.png",
-        sourceUrl: "https://www.google.com",
-        sourceName: "Google",
-        text: "lorem ipsum dolor",
-      },
-    ],
-    controversial: false,
   };
   console.log(message);
   return (
     <div className="max-w-[1000px] m-auto flex flex-col">
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">Fact checker</h1>
-      <SearchBar />
-      <div className="flex mt-4 flex-wrap justify-center gap-4">
-        <div className="flex flex-col gap-10">
-          <DataCard title="Overall trust rating" rating={59} />
-          <DataCard title="Clickbait rating" rating={100} />
+      <SearchBar onClick={processInput} />
+      {displayData ? (
+        <div className="flex mt-4 flex-wrap justify-center gap-4">
+          <div className="flex flex-col gap-10">
+            <DataCard
+              title="Overall trust rating"
+              rating={backendResponse.trustRating}
+            />
+            <DataCard
+              title="Clickbait rating"
+              rating={backendResponse.clickbaitRating}
+            />
+          </div>
+          <div className="flex flex-col">
+            <SourcesCard
+              title="Relevant Sources"
+              sources={backendResponse.sources[0]}
+            />
+            <SourcesCard
+              title="Controvertial Sources"
+              sources={backendResponse.sources[1]}
+            />
+          </div>
         </div>
-        <div className="flex flex-col">
-          <SourcesCard title="Relevant Sources" sources={sources1} />
-          <SourcesCard title="Controvertial Sources" sources={sources2} />
-        </div>
-      </div>
+      ) : (
+        <NothingToShow />
+      )}
     </div>
   );
 };
