@@ -14,7 +14,13 @@ export const SearchBar = ({ onClick }: Props) => {
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
       ></Input>
-      <Button className="rounded-[5px] font-bold" onClick={() => onClick(inputText)}>
+      <Button
+        className="rounded-[5px] font-bold"
+        onClick={() => {
+          if(inputText != "")
+            onClick(inputText);
+        }}
+      >
         Check
       </Button>
     </div>
