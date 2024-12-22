@@ -144,7 +144,7 @@ const App: React.FC = () => {
       },
     ],
   };*/
-  const finalResultM = {
+  /*const finalResultM = {
     trustRating: 60,
     clickbaitRating: 20,
     sources: [
@@ -175,7 +175,7 @@ const App: React.FC = () => {
         controversial: true,
       },
     ],
-  };
+  };*/
   console.log(message);
   return (
     <div className="max-w-[1000px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
