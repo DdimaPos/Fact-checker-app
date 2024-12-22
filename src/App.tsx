@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { SearchBar, DataCard, SourcesCard, NothingToShow, Loader} from "./components";
+import {
+  SearchBar,
+  DataCard,
+  SourcesCard,
+  NothingToShow,
+  Loader,
+} from "./components";
 
 type FinalResult = {
   overallTrustRating: number; // e.g., 59
@@ -27,7 +33,7 @@ const App: React.FC = () => {
   const [dataToSend, setDataToSend] = useState<DataToSend | null>(null);
   const [finalResult, setFinalResult] = useState<FinalResult | null>(null);
   const [isDisappearing, setIsDisappearing] = useState(false); // New state
-  const [isLoading, setIsLoading]= useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const processInput = (input: string) => {
     setIsDisappearing(true);
@@ -40,7 +46,7 @@ const App: React.FC = () => {
       ? { url: input, text: null }
       : { url: null, text: input };
 
-    setDataToSend(data); 
+    setDataToSend(data);
     fetchResult(data);
   };
   const fetchResult = async (data: DataToSend) => {
@@ -108,15 +114,14 @@ const App: React.FC = () => {
       {
         sourceData: [
           {
-            sourceLogo:
-              "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png",
+            sourceLogo: "https://point.md/static/images/logo-og.png",
             sourceUrl: "https://www.google.com",
-            sourceName: "Google",
+            sourceName: "Point.md",
             text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
           },
           {
             sourceLogo:
-              "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png",
+              "https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png",
             sourceUrl: "https://www.google.com",
             sourceName: "Google",
             text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
@@ -144,21 +149,23 @@ const App: React.FC = () => {
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">Fact checker</h1>
       <SearchBar onClick={processInput} />
       {isLoading ? (
-        <Loader /> 
-      ) :displayData ? (
-        <div className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}>
+        <Loader />
+      ) : displayData ? (
+        <div
+          className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}
+        >
           <div className="flex flex-col gap-10 sticky z-50">
             <DataCard
               title="Overall solidity rating"
               rating={backendResponse.trustRating}
               className="opacity-0 slide-up delay-1 z-10"
-              higherIsBetter = {true}
+              higherIsBetter={true}
             />
             <DataCard
               title="Clickbait rating"
               rating={backendResponse.clickbaitRating}
               className="opacity-0 slide-up delay-2 z-0"
-              higherIsBetter = {false}
+              higherIsBetter={false}
             />
           </div>
           <div className="flex flex-col gap-10">
