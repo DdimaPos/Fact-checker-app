@@ -16,8 +16,9 @@ interface Props {
   title: string;
   sources: Sources;
   className?: string;
+  controvertial: boolean;
 }
-export const SourcesCard = ({ title, sources, className }: Props) => {
+export const SourcesCard = ({ title, sources, className, controvertial }: Props) => {
   return (
     <div className={cn(className, "w-[500px] ")}>
       <Card className="flex flex-col p-2 gap-3">
@@ -25,7 +26,7 @@ export const SourcesCard = ({ title, sources, className }: Props) => {
           {title}
         </CardTitle>
         <CardContent className="flex gap-[20px] flex-col max-h-[500px] overflow-y-auto">
-          {sources.sourceData.map((source, i) => {
+          {sources.sourceData ? sources.sourceData.map((source, i) => {
             return (
               <section key={i}>
                 <div className="mb-4 flex items-center gap-[10px]">
@@ -46,7 +47,7 @@ export const SourcesCard = ({ title, sources, className }: Props) => {
                   <span className="text-[12] font-thin">link</span>
                 </div>
                 <div
-                  className={`rounded-[10px] p-5 text-white text-[12px] ${sources.controversial ? "bg-primary" : "bg-destructive"}`}
+                  className={`rounded-[10px] p-5 text-white text-[12px] ${controvertial ? "bg-primary" : "bg-destructive"}`}
                 >
                   ..."
                   <span className="italic">{source.text}</span>
@@ -54,7 +55,7 @@ export const SourcesCard = ({ title, sources, className }: Props) => {
                 </div>
               </section>
             );
-          })}
+          }) : "No new for specified category"}
         </CardContent>
       </Card>
     </div>

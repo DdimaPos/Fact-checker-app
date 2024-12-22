@@ -52,7 +52,7 @@ const App: React.FC = () => {
   const fetchResult = async (data: DataToSend) => {
     console.log(dataToSend);
     console.log("Send Data:", data);
-    try {
+    /*try {
       let result = await fetch("http://localhost:6969/get-info", {
         method: "POST",
         headers: {
@@ -61,21 +61,21 @@ const App: React.FC = () => {
         body: JSON.stringify(data),
       });
       let recievedData = await result.json();
-      console.log("Recieved data from server:", recievedData)
+      console.log("Recieved data from server:", recievedData);
       setFinalResult(recievedData);
       setDisplayData(true);
     } catch (err: any) {
       console.error(err.message);
 
       setDisplayData(true);
-    }finally{
+    } finally {
       setIsLoading(false);
-    }
-    /*setTimeout(() => {
+    }*/
+    setTimeout(() => {
       setFinalResult(null);
       setDisplayData(true);
       setIsLoading(false);
-    }, 2000);*/
+    }, 2000);
   };
   ///for extension's right click
   useEffect(() => {
@@ -144,6 +144,38 @@ const App: React.FC = () => {
       },
     ],
   };*/
+  const finalResultM = {
+    trustRating: 60,
+    clickbaitRating: 20,
+    sources: [
+      {
+        sourceData: [
+          {
+            sourceLogo: "https://gagauzinfo.md/images/favicon.png",
+            sourceUrl:
+              "https://point.md/ru/novosti/ekonomika/cheban-my-ozhidaem-uvedomleniia-ot-gazproma-v-blizhaishie-dni/",
+            sourceName:
+              "Вадим Чебан: Молдова может вернуться к закупкам газа из России уже в мае",
+            text: "Вход/Регистрация банки: Глава «Молдовагаз» Вадим Чебан утверждает, что направил в «Газпром» несколько запросов на поставку газа в Приднестровье по Трансбалканской сети, но не получил ответа, передает tv8.md",
+          },
+        ],
+        controversial: true,
+      },
+      {
+        sourceData: [
+          {
+            sourceLogo: "https://gagauzinfo.md/images/favicon.png",
+            sourceUrl:
+              "https://point.md/ru/novosti/ekonomika/cheban-my-ozhidaem-uvedomleniia-ot-gazproma-v-blizhaishie-dni/",
+            sourceName:
+              "Вадим Чебан: Молдова может вернуться к закупкам газа из России уже в мае",
+            text: "С другой стороны, Вадим Чебан говорит, что он также сообщил Тирасполю о возможности покупать газ на бирже, за который, однако, придется заплатить.",
+          },
+        ],
+        controversial: true,
+      },
+    ],
+  };
   console.log(message);
   return (
     <div className="max-w-[1000px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
@@ -151,20 +183,20 @@ const App: React.FC = () => {
       <SearchBar onClick={processInput} />
       {isLoading ? (
         <Loader />
-      ) : displayData && finalResult ? (
+      ) : displayData && finalResultM ? (
         <div
           className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}
         >
           <div className="flex flex-col gap-10 sticky z-50">
             <DataCard
               title="Overall solidity rating"
-              rating={finalResult.trustRating}
+              rating={finalResultM.trustRating}
               className="opacity-0 slide-up delay-1 z-10"
               higherIsBetter={true}
             />
             <DataCard
               title="Clickbait rating"
-              rating={finalResult.clickbaitRating}
+              rating={finalResultM.clickbaitRating}
               className="opacity-0 slide-up delay-2 z-0"
               higherIsBetter={false}
             />
@@ -172,13 +204,15 @@ const App: React.FC = () => {
           <div className="flex flex-col gap-10">
             <SourcesCard
               title="Sources with similar information"
-              sources={finalResult.sources[0]}
+              sources={finalResultM.sources[0]}
               className="opacity-0 slide-up delay-3"
+              controvertial={true}
             />
             <SourcesCard
               title="Sources with diverging information"
-              sources={finalResult.sources[1]}
+              sources={finalResultM.sources[1]}
               className="opacity-0 slide-up delay-4"
+              controvertial={false}
             />
           </div>
         </div>
