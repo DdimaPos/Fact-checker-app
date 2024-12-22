@@ -1,56 +1,24 @@
-/*import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import "./rating.css"
-import { cn } from "@/lib/utils";
-interface Props{
-  title: string,
-  rating: number,
-  className?: string 
-}
-export const DataCard = ({title, rating, className}: Props) => {
-  const [barWidth, setBarWidth] = useState(0);
-  setTimeout(() => {
-    setBarWidth(rating);
-  }, 0);
-  const barColor = `hsl(${barWidth}, 70%, 45%)`;
-  return (
-    <div className={cn(className, "")}>
-      <Card className="w-[400px] text-foreground">
-        <CardHeader>
-          <CardTitle className="w-fit m-auto font-bold text-[25px]">
-            {title}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col justify-center items-center gap-7">
-          <div className="text-6xl counter"
-            style={{"--num":rating} as React.CSSProperties}
-          >{/*rating*}</div>
-
-          <div className="animatedBar__parent relative rounded-[5px] h-[10px] w-[100%] bg-foreground">
-            <div
-              className="animatedBar__child absolute rounded-[5px] h-[10px] bg-primary"
-              style={{ width: `${barWidth}%`, background: barColor }}
-            ></div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-};*/
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import "./rating.css";
 import { cn } from "@/lib/utils";
+import { Info } from "lucide-react";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import { HelperInfo } from "./helperInfo";
 
 interface Props {
   title: string;
   rating: number;
   className?: string;
-  higherIsBetter:boolean;
+  higherIsBetter: boolean;
 }
 
-export const DataCard = ({ title, rating, className, higherIsBetter }: Props) => {
+export const DataCard = ({
+  title,
+  rating,
+  className,
+  higherIsBetter,
+}: Props) => {
   const [barWidth, setBarWidth] = useState(0);
   const [counterValue, setCounterValue] = useState(0);
 
@@ -58,11 +26,11 @@ export const DataCard = ({ title, rating, className, higherIsBetter }: Props) =>
     setBarWidth(0);
     const barTimer = setTimeout(() => {
       setBarWidth(rating);
-    }, 50); 
+    }, 50);
 
-    setCounterValue(0); 
+    setCounterValue(0);
     const counterTimer = setTimeout(() => {
-      setCounterValue(rating); 
+      setCounterValue(rating);
     }, 50);
 
     return () => {
@@ -71,15 +39,21 @@ export const DataCard = ({ title, rating, className, higherIsBetter }: Props) =>
     };
   }, [rating]);
 
-  const barColor = `hsl(${higherIsBetter? barWidth : 100-barWidth}, 70%, 45%)`;
+  const barColor = `hsl(${higherIsBetter ? barWidth : 100 - barWidth}, 70%, 45%)`;
 
   return (
-    <div className={cn(className, "")}>
+    <div className={cn(className, "datacard")}>
       <Card className="w-[400px] text-foreground">
-        <CardHeader>
-          <CardTitle className="w-fit m-auto font-bold text-[25px]">
-            {title}
-          </CardTitle>
+        <CardHeader className="w-fit m-auto flex flex-row items-center gap-4">
+          <CardTitle className="w-fit font-bold text-[25px]">{title}</CardTitle>
+          <HoverCard>
+            <HoverCardTrigger asChild className="cursor-pointer">
+              <Info />
+            </HoverCardTrigger>
+            <HoverCardContent className="w-[400px] p-1">
+              <HelperInfo className="w-[350px] h-auto"/>
+            </HoverCardContent>
+          </HoverCard>
         </CardHeader>
         <CardContent className="flex flex-col justify-center items-center gap-7">
           {/* Counter Animation */}

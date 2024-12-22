@@ -15,6 +15,9 @@
   initial-value: 0;
   inherits: false;
 }
+.datacard{
+  z-index: 100;
+}
 .counter {
   transition: --num 2s;
   counter-set: num var(--num);

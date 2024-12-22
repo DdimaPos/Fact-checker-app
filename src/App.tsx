@@ -140,24 +140,24 @@ const App: React.FC = () => {
   };
   console.log(message);
   return (
-    <div className="max-w-[1000px] m-auto flex flex-col">
+    <div className="max-w-[1000px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">Fact checker</h1>
       <SearchBar onClick={processInput} />
       {isLoading ? (
         <Loader /> 
       ) :displayData ? (
         <div className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}>
-          <div className="flex flex-col gap-10 sticky">
+          <div className="flex flex-col gap-10 sticky z-50">
             <DataCard
               title="Overall solidity rating"
               rating={backendResponse.trustRating}
-              className="opacity-0 slide-up delay-1"
+              className="opacity-0 slide-up delay-1 z-10"
               higherIsBetter = {true}
             />
             <DataCard
               title="Clickbait rating"
               rating={backendResponse.clickbaitRating}
-              className="opacity-0 slide-up delay-2"
+              className="opacity-0 slide-up delay-2 z-0"
               higherIsBetter = {false}
             />
           </div>
