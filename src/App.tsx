@@ -52,8 +52,8 @@ const App: React.FC = () => {
   const fetchResult = async (data: DataToSend) => {
     console.log(dataToSend);
     console.log("Send Data:", data);
-    /*try {
-      let result = await fetch("link", {
+    try {
+      let result = await fetch("http://localhost:6969/get-info", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,12 +69,12 @@ const App: React.FC = () => {
       setDisplayData(true);
     }finally{
       setIsLoading(false);
-    }*/
-    setTimeout(() => {
+    }
+    /*setTimeout(() => {
       setFinalResult(null);
       setDisplayData(true);
       setIsLoading(false);
-    }, 2000);
+    }, 2000);*/
   };
   ///for extension's right click
   useEffect(() => {
