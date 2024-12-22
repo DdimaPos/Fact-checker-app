@@ -44,7 +44,7 @@ const App: React.FC = () => {
     }, 200); //Mat
     const data = input.startsWith("http")
       ? { url: input, text: null }
-      : { url: null, text: input };
+      : { url: "https://www.ipn.md/ru/tik-tok-mogut-zakryt-esli-on-predstavlyaet-ugrozu-dlya-gosudarstvennoy-7965_1109386.html", text: input };
 
     setDataToSend(data);
     fetchResult(data);
