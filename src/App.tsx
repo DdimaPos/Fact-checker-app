@@ -183,7 +183,7 @@ const App: React.FC = () => {
       <SearchBar onClick={processInput} />
       {isLoading ? (
         <Loader />
-      ) : displayData && finalResultM ? (
+      ) : displayData && finalResult ? (
         <div
           className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}
         >
