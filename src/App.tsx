@@ -61,6 +61,7 @@ const App: React.FC = () => {
         body: JSON.stringify(data),
       });
       let recievedData = await result.json();
+      console.log("Recieved data from server:", recievedData)
       setFinalResult(recievedData);
       setDisplayData(true);
     } catch (err: any) {
