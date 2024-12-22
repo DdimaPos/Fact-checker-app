@@ -26,7 +26,7 @@ export const SourcesCard = ({ title, sources, className, controvertial }: Props)
           {title}
         </CardTitle>
         <CardContent className="flex gap-[20px] flex-col max-h-[500px] overflow-y-auto">
-          {sources.sourceData ? sources.sourceData.map((source, i) => {
+          {sources.sourceData!=null ? sources.sourceData.map((source, i) => {
             return (
               <section key={i}>
                 <div className="mb-4 flex items-center gap-[10px]">
