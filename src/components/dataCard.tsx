@@ -47,9 +47,10 @@ interface Props {
   title: string;
   rating: number;
   className?: string;
+  higherIsBetter:boolean;
 }
 
-export const DataCard = ({ title, rating, className }: Props) => {
+export const DataCard = ({ title, rating, className, higherIsBetter }: Props) => {
   const [barWidth, setBarWidth] = useState(0);
   const [counterValue, setCounterValue] = useState(0);
 
@@ -70,7 +71,7 @@ export const DataCard = ({ title, rating, className }: Props) => {
     };
   }, [rating]);
 
-  const barColor = `hsl(${barWidth}, 70%, 45%)`;
+  const barColor = `hsl(${higherIsBetter? barWidth : 100-barWidth}, 70%, 45%)`;
 
   return (
     <div className={cn(className, "")}>

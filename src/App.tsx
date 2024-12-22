@@ -32,16 +32,16 @@ const App: React.FC = () => {
   const processInput = (input: string) => {
     setIsDisappearing(true);
     setTimeout(() => {
-      setDisplayData(false); // Remove cards after fade-out
+      setDisplayData(false); //remove cards after fade-out
       setIsLoading(true);
-      setIsDisappearing(false); // Reset disappearing state
-    }, 200); // Mat
+      setIsDisappearing(false); //reset disappearing state
+    }, 200); //Mat
     const data = input.startsWith("http")
       ? { url: input, text: null }
       : { url: null, text: input };
 
-    setDataToSend(data); // Update state for reference
-    fetchResult(data); // Send the data immediately
+    setDataToSend(data); 
+    fetchResult(data);
   };
   const fetchResult = async (data: DataToSend) => {
     console.log(dataToSend);
@@ -144,7 +144,7 @@ const App: React.FC = () => {
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">Fact checker</h1>
       <SearchBar onClick={processInput} />
       {isLoading ? (
-        <Loader /> // Show loader while request is being processed
+        <Loader /> 
       ) :displayData ? (
         <div className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}>
           <div className="flex flex-col gap-10 sticky">
@@ -152,11 +152,13 @@ const App: React.FC = () => {
               title="Overall solidity rating"
               rating={backendResponse.trustRating}
               className="opacity-0 slide-up delay-1"
+              higherIsBetter = {true}
             />
             <DataCard
               title="Clickbait rating"
               rating={backendResponse.clickbaitRating}
               className="opacity-0 slide-up delay-2"
+              higherIsBetter = {false}
             />
           </div>
           <div className="flex flex-col gap-10">
