@@ -41,7 +41,7 @@ export const SourcesCard = ({ title, sources, className }: Props) => {
                     href={source.sourceUrl}
                     target="_blank"
                   >
-                    {source.sourceName}
+                    {source.sourceName || source.sourceUrl}
                   </a>
                   <span className="text-[12] font-thin">link</span>
                 </div>

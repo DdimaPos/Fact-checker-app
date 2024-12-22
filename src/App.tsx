@@ -9,7 +9,7 @@ import {
 } from "./components";
 
 type FinalResult = {
-  overallTrustRating: number; // e.g., 59
+  trustRating: number; // e.g., 59
   clickbaitRating: number; // e.g., 100
   sources: {
     sourceData: {
@@ -158,7 +158,7 @@ const App: React.FC = () => {
           <div className="flex flex-col gap-10 sticky z-50">
             <DataCard
               title="Overall solidity rating"
-              rating={finalResult.overallTrustRating}
+              rating={finalResult.trustRating}
               className="opacity-0 slide-up delay-1 z-10"
               higherIsBetter={true}
             />
