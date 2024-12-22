@@ -139,3 +139,21 @@ button:focus-visible {
     @apply bg-background text-foreground;
   }
 }
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #303030;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

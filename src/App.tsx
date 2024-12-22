@@ -112,14 +112,14 @@ const App: React.FC = () => {
               "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png",
             sourceUrl: "https://www.google.com",
             sourceName: "Google",
-            text: "lorem ipsum dolor",
+            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
           },
           {
             sourceLogo:
               "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png",
             sourceUrl: "https://www.google.com",
             sourceName: "Google",
-            text: "Detailed description or excerpt from the source",
+            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
           },
         ],
         controversial: true,
@@ -147,7 +147,7 @@ const App: React.FC = () => {
         <Loader /> // Show loader while request is being processed
       ) :displayData ? (
         <div className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}>
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-10 sticky">
             <DataCard
               title="Overall solidity rating"
               rating={backendResponse.trustRating}

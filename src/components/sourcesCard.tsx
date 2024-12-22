@@ -19,12 +19,12 @@ interface Props {
 }
 export const SourcesCard = ({ title, sources, className }: Props) => {
   return (
-    <div className={cn(className, "w-[500px]")}>
+    <div className={cn(className, "w-[500px] ")}>
       <Card className="flex flex-col p-2 gap-3">
         <CardTitle className=" m-auto text-foreground w-fit text-[25px]">
           {title}
         </CardTitle>
-        <CardContent className="flex gap-[20px] flex-col">
+        <CardContent className="flex gap-[20px] flex-col max-h-[500px] overflow-y-auto">
           {sources.sourceData.map((source, i) => {
             return (
               <section key={i}>
@@ -42,11 +42,14 @@ export const SourcesCard = ({ title, sources, className }: Props) => {
                   >
                     {source.sourceName}
                   </a>
+                  <span className="text-[12] font-thin">link</span>
                 </div>
                 <div
                   className={`rounded-[10px] p-5 text-white text-[12px] ${sources.controversial ? "bg-primary" : "bg-destructive"}`}
                 >
-                  {source.text}
+                  ..."
+                  <span className="italic">{source.text}</span>
+                  "...
                 </div>
               </section>
             );
