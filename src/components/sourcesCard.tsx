@@ -39,6 +39,7 @@ export const SourcesCard = ({ title, sources, className }: Props) => {
                   <a
                     className="text-[18px] text-foreground font-bold hover:underline transition duration-200 ease-in delay-100"
                     href={source.sourceUrl}
+                    target="_blank"
                   >
                     {source.sourceName}
                   </a>

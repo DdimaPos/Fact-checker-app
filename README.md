@@ -19,6 +19,14 @@ npm run dev
 ```
 Access on displayed localhost
 
+1. To run the browser extension run
+```bash
+npm run build
+```
+2. Go to "manage extensions" tab in your chromium-based browser
+3. Press `Load unpacted`
+4. Select the `dist` folder of the project
+
 ## Usage
 
 ### WebSite
