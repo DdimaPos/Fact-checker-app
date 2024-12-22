@@ -107,8 +107,8 @@ const App: React.FC = () => {
     }
   }, []);
   console.log(finalResult);
-  const backendResponse = {
-    trustRating: 59,
+  /*const finalResultM= {
+    overallTrustRating: 59,
     clickbaitRating: 100,
     sources: [
       {
@@ -142,7 +142,7 @@ const App: React.FC = () => {
         controversial: false,
       },
     ],
-  };
+  };*/
   console.log(message);
   return (
     <div className="max-w-[1000px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
@@ -150,20 +150,20 @@ const App: React.FC = () => {
       <SearchBar onClick={processInput} />
       {isLoading ? (
         <Loader />
-      ) : displayData ? (
+      ) : displayData && finalResult ? (
         <div
           className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}
         >
           <div className="flex flex-col gap-10 sticky z-50">
             <DataCard
               title="Overall solidity rating"
-              rating={backendResponse.trustRating}
+              rating={finalResult.overallTrustRating}
               className="opacity-0 slide-up delay-1 z-10"
               higherIsBetter={true}
             />
             <DataCard
               title="Clickbait rating"
-              rating={backendResponse.clickbaitRating}
+              rating={finalResult.clickbaitRating}
               className="opacity-0 slide-up delay-2 z-0"
               higherIsBetter={false}
             />
@@ -171,12 +171,12 @@ const App: React.FC = () => {
           <div className="flex flex-col gap-10">
             <SourcesCard
               title="Sources with similar information"
-              sources={backendResponse.sources[0]}
+              sources={finalResult.sources[0]}
               className="opacity-0 slide-up delay-3"
             />
             <SourcesCard
               title="Sources with diverging information"
-              sources={backendResponse.sources[1]}
+              sources={finalResult.sources[1]}
               className="opacity-0 slide-up delay-4"
             />
           </div>
