@@ -52,7 +52,7 @@ const App: React.FC = () => {
   const fetchResult = async (data: DataToSend) => {
     console.log(dataToSend);
     console.log("Send Data:", data);
-    /*try {
+    try {
       let result = await fetch("http://localhost:6969/get-info", {
         method: "POST",
         headers: {
@@ -70,12 +70,12 @@ const App: React.FC = () => {
       setDisplayData(true);
     } finally {
       setIsLoading(false);
-    }*/
-    setTimeout(() => {
+    }
+    /*setTimeout(() => {
       setFinalResult(null);
       setDisplayData(true);
       setIsLoading(false);
-    }, 2000);
+    }, 2000);*/
   };
   ///for extension's right click
   useEffect(() => {
@@ -190,13 +190,13 @@ const App: React.FC = () => {
           <div className="flex flex-col gap-10 sticky z-50">
             <DataCard
               title="Overall solidity rating"
-              rating={finalResultM.trustRating}
+              rating={finalResult.trustRating}
               className="opacity-0 slide-up delay-1 z-10"
               higherIsBetter={true}
             />
             <DataCard
               title="Clickbait rating"
-              rating={finalResultM.clickbaitRating}
+              rating={finalResult.clickbaitRating}
               className="opacity-0 slide-up delay-2 z-0"
               higherIsBetter={false}
             />
@@ -204,13 +204,13 @@ const App: React.FC = () => {
           <div className="flex flex-col gap-10">
             <SourcesCard
               title="Sources with similar information"
-              sources={finalResultM.sources[0]}
+              sources={finalResult.sources[0]}
               className="opacity-0 slide-up delay-3"
               controvertial={true}
             />
             <SourcesCard
               title="Sources with diverging information"
-              sources={finalResultM.sources[1]}
+              sources={finalResult.sources[1]}
               className="opacity-0 slide-up delay-4"
               controvertial={false}
             />
