@@ -5,8 +5,8 @@ to verify the validity of the news or affirmations in internet.
 
 ## Screenshots
 
-> [!note] 
-> Screenshots will be posted after backend services are ready
+![image](https://github.com/user-attachments/assets/1a4a1403-603d-4602-a9c7-f2f546d19d7e)
+*Uses mock data*
 
 ## Installation and run
 
