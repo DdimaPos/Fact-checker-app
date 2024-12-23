@@ -9,20 +9,18 @@ interface Source {
 }
 
 interface Sources {
-  sourceData: Source[]; // Indicates that sourceData is an array of Source objects
+  sourceData: Source[]; //sourceData is an array of Source objects
   controversial: boolean;
 }
 interface Props {
   title: string;
   sources: Sources;
   className?: string;
-  controvertial: boolean;
 }
 export const SourcesCard = ({
   title,
   sources,
   className,
-  controvertial,
 }: Props) => {
   return (
     <div className={cn(className, "w-[500px] ")}>
@@ -60,7 +58,7 @@ export const SourcesCard = ({
                       <span className="text-[12] font-thin">link</span>
                     </div>
                     <div
-                      className={`rounded-[10px] p-5 text-white text-[12px] ${controvertial ? "bg-primary" : "bg-destructive"}`}
+                      className={`rounded-[10px] p-5 text-white text-[12px] ${!sources.controversial ? "bg-primary" : "bg-destructive"}`}
                     >
                       ..."
                       <span className="italic">{source.text}</span>
@@ -69,7 +67,7 @@ export const SourcesCard = ({
                   </section>
                 );
               })
-            : "No new for specified category"}
+            : "No sources for specified category"}
         </CardContent>
       </Card>
     </div>

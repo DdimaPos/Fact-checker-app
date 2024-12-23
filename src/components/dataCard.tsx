@@ -19,27 +19,19 @@ export const DataCard = ({
   className,
   higherIsBetter,
 }: Props) => {
-  const [barWidth, setBarWidth] = useState(0);
-  const [counterValue, setCounterValue] = useState(0);
-
+  const [referenceValue, setReferenceValue] = useState(0); //helper value to display the animations
   useEffect(() => {
-    setBarWidth(0);
-    const barTimer = setTimeout(() => {
-      setBarWidth(rating);
-    }, 50);
-
-    setCounterValue(0);
-    const counterTimer = setTimeout(() => {
-      setCounterValue(rating);
+    setReferenceValue(0);
+    const referenceTimer = setTimeout(() => {
+      setReferenceValue(rating);
     }, 50);
 
     return () => {
-      clearTimeout(barTimer);
-      clearTimeout(counterTimer);
+      clearTimeout(referenceTimer);
     };
   }, [rating]);
 
-  const barColor = `hsl(${higherIsBetter ? barWidth : 100 - barWidth}, 70%, 45%)`;
+  const barColor = `hsl(${higherIsBetter ? referenceValue : 100 - referenceValue}, 70%, 45%)`;
 
   return (
     <div className={cn(className, "datacard")}>
@@ -51,7 +43,7 @@ export const DataCard = ({
               <Info />
             </HoverCardTrigger>
             <HoverCardContent className="w-[400px] p-1">
-              <HelperInfo className="w-[350px] h-auto"/>
+              <HelperInfo className="w-[350px] h-auto" />
             </HoverCardContent>
           </HoverCard>
         </CardHeader>
@@ -59,14 +51,14 @@ export const DataCard = ({
           {/* Counter Animation */}
           <div
             className="text-6xl counter"
-            style={{ "--num": counterValue } as React.CSSProperties}
+            style={{ "--num": referenceValue } as React.CSSProperties}
           ></div>
 
           {/* Bar with trust rating */}
           <div className="animatedBar__parent relative rounded-[5px] h-[10px] w-[100%] bg-foreground">
             <div
               className="animatedBar__child absolute rounded-[5px] h-[10px] bg-primary"
-              style={{ width: `${barWidth}%`, background: barColor }}
+              style={{ width: `${referenceValue}%`, background: barColor }}
             ></div>
           </div>
         </CardContent>
