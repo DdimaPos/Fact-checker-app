@@ -104,19 +104,24 @@ const App: React.FC = () => {
   }, []);
 
   //Mock data
-  const finalResultM = {
-    trustRating: 60,
-    clickbaitRating: 20,
+  /*const finalResultM= {
+    trustRating: 59,
+    clickbaitRating: 100,
     sources: [
       {
         sourceData: [
           {
-            sourceLogo: "https://gagauzinfo.md/images/favicon.png",
-            sourceUrl:
-              "https://point.md/ru/novosti/ekonomika/cheban-my-ozhidaem-uvedomleniia-ot-gazproma-v-blizhaishie-dni/",
-            sourceName:
-              "Вадим Чебан: Молдова может вернуться к закупкам газа из России уже в мае",
-            text: "Вход/Регистрация банки: Глава «Молдовагаз» Вадим Чебан утверждает, что направил в «Газпром» несколько запросов на поставку газа в Приднестровье по Трансбалканской сети, но не получил ответа, передает tv8.md",
+            sourceLogo: "https://point.md/static/images/logo-og.png",
+            sourceUrl: "https://www.google.com",
+            sourceName: "Point.md",
+            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
+          },
+          {
+            sourceLogo:
+              "https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png",
+            sourceUrl: "https://www.google.com",
+            sourceName: "Google",
+            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
           },
         ],
         controversial: false,
@@ -124,18 +129,17 @@ const App: React.FC = () => {
       {
         sourceData: [
           {
-            sourceLogo: "https://gagauzinfo.md/images/favicon.png",
-            sourceUrl:
-              "https://point.md/ru/novosti/ekonomika/cheban-my-ozhidaem-uvedomleniia-ot-gazproma-v-blizhaishie-dni/",
-            sourceName:
-              "Вадим Чебан: Молдова может вернуться к закупкам газа из России уже в мае",
-            text: "С другой стороны, Вадим Чебан говорит, что он также сообщил Тирасполю о возможности покупать газ на бирже, за который, однако, придется заплатить.",
+            sourceLogo:
+              "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png",
+            sourceUrl: "https://www.google.com",
+            sourceName: "Google",
+            text: "lorem ipsum dolor",
           },
         ],
         controversial: true,
       },
     ],
-  };
+  };*/
   return (
     <div className="max-w-[1000px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">Fact checker</h1>
