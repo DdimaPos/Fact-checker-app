@@ -7,7 +7,7 @@ export const Loader = () => {
         <div></div>
         <div></div>
       </div>
-      <img width="400" height="auto" src="brian-family-guy.gif" alt="GIF"/>
+      {/*<img width="400" height="auto" src="brian-family-guy.gif" alt="GIF"/>*/}
     </div>
   );
 };

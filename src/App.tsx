@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import {
-  SearchBar,
-  DataCard,
-  SourcesCard,
-  NothingToShow,
-  Loader,
-} from "./components";
-
+import { DataCard, SourcesCard, NothingToShow, Loader } from "./components";
+import { SearchBar } from "./components/SearchBar";
+import { FakeNewsList } from "./features/FakeNewsList";
 type FinalResult = {
-  trustRating: number; 
+  trustRating: number;
   clickbaitRating: number;
   sources: {
     sourceData: {
@@ -32,14 +27,16 @@ const App: React.FC = () => {
   const [finalResult, setFinalResult] = useState<FinalResult | null>(null);
   const [isDisappearing, setIsDisappearing] = useState(false); // New state
   const [isLoading, setIsLoading] = useState(false);
+  const [shrinked, setShrinked] = useState(false);
 
   const processInput = (input: string) => {
+    setShrinked(true);
     setIsDisappearing(true);
     setTimeout(() => {
       setDisplayData(false); //remove cards after fade-out
       setIsLoading(true);
       setIsDisappearing(false); //reset disappearing state
-    }, 200); 
+    }, 200);
     const data = input.startsWith("http")
       ? { url: input, text: null }
       : { url: null, text: input };
@@ -47,6 +44,31 @@ const App: React.FC = () => {
     fetchResult(data);
   };
   const fetchResult = async (data: DataToSend) => {
+    const response = await fetch(
+      "https://stopfals.md/archive/filter?page=1&order=desc&date=01%2F23%2F2025&lang=ro",
+      {
+        headers: {
+          accept: "*/*",
+          "accept-language": "en-US,en;q=0.9,ru;q=0.8",
+          "cache-control": "no-cache",
+          pragma: "no-cache",
+          priority: "u=1, i",
+          "sec-ch-ua": '"Not A(Brand";v="8", "Chromium";v="132"',
+          "sec-ch-ua-mobile": "?1",
+          "sec-ch-ua-platform": '"Android"',
+          "sec-fetch-dest": "empty",
+          "sec-fetch-mode": "no-cors",
+          "sec-fetch-site": "same-origin",
+          "x-requested-with": "XMLHttpRequest",
+          cookie: "lang=ro",
+          Referer: "https://stopfals.md/ro/archive",
+          "Referrer-Policy": "strict-origin-when-cross-origin",
+        },
+        body: null,
+        method: "GET",
+      },
+    );
+    console.log(response.json());
     /*try {
       let result = await fetch("http://localhost:6969/get-info", {
         method: "POST",
@@ -70,7 +92,7 @@ const App: React.FC = () => {
       //logs to avoid error when debugging
       console.log(finalResult);
       console.log(data);
-      
+
       setFinalResult(null);
       setDisplayData(true);
       setIsLoading(false);
@@ -104,7 +126,7 @@ const App: React.FC = () => {
   }, []);
 
   //Mock data
-  /*const finalResultM= {
+  const finalResultM = {
     trustRating: 59,
     clickbaitRating: 100,
     sources: [
@@ -139,27 +161,27 @@ const App: React.FC = () => {
         controversial: true,
       },
     ],
-  };*/
+  };
   return (
-    <div className="max-w-[1000px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
+    <div className="max-w-[1200px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">Fact checker</h1>
-      <SearchBar onClick={processInput} />
+      <SearchBar onClick={processInput} shrinked={shrinked} />
       {isLoading ? (
         <Loader />
-      ) : displayData && finalResult ? (
+      ) : displayData && finalResultM ? (
         <div
           className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}
         >
           <div className="flex flex-col gap-10 sticky z-50">
             <DataCard
               title="Overall solidity rating"
-              rating={finalResult.trustRating}
+              rating={finalResultM.trustRating}
               className="opacity-0 slide-up delay-1 z-10"
               higherIsBetter={true}
             />
             <DataCard
               title="Clickbait rating"
-              rating={finalResult.clickbaitRating}
+              rating={finalResultM.clickbaitRating}
               className="opacity-0 slide-up delay-2 z-0"
               higherIsBetter={false}
             />
@@ -167,18 +189,18 @@ const App: React.FC = () => {
           <div className="flex flex-col gap-10">
             <SourcesCard
               title="Sources with similar information"
-              sources={finalResult.sources[0]}
+              sources={finalResultM.sources[0]}
               className="opacity-0 slide-up delay-3"
             />
             <SourcesCard
               title="Sources with diverging information"
-              sources={finalResult.sources[1]}
+              sources={finalResultM.sources[1]}
               className="opacity-0 slide-up delay-4"
             />
           </div>
         </div>
       ) : (
-        <NothingToShow />
+        <FakeNewsList />
       )}
     </div>
   );
