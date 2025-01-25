@@ -29,12 +29,12 @@ export default function International() {
     const fetchNews = async () => {
       try {
         var response = await fetch(
-          "https://newsapi.org/v2/everything?q=fake+news&apiKey=17ab9c30f70a4af3bafe8947a8c4f1c5&language=en",
+          "http://localhost:3000/proxy_newsapi",
         );
         var fetchData = await response.json();
         setData(fetchData);
       } catch (err: any) {
-        setError(err);
+        setError("error fetching international news");
       } finally {
         setLoading(false);
       }
@@ -43,47 +43,50 @@ export default function International() {
   }, []);
   if (loading) {
     return (
-      <div>
-        {[1, 2, 3, 4, 5].map(() => {
-          return <SkeletonArticle />;
+      <div className="w-[100%]">
+        {[1, 2, 3, 4, 5].map((i) => {
+          return (
+              <SkeletonArticle key={i} />
+          );
         })}
       </div>
     );
   }
 
   if (error) {
-    return { error };
+    return <>Could not fetch international news</>;
   }
   if (!data || data.articles.length === 0) {
     return <div>No articles found.</div>;
   }
   //calculate pagination details
   const totalPages = Math.ceil(data.articles.length / articlesPerPage);
-  console.log(totalPages);
   const startIndex = (currentPage - 1) * articlesPerPage;
   const endIndex = startIndex + articlesPerPage;
   const paginatedArticles = data.articles.slice(startIndex, endIndex);
-  console.log(paginatedArticles);
+
   return (
     <div>
-      {paginatedArticles.map((val) => {
-        return (
-          <Article
-            img_url={val.urlToImage}
-            title={val.title}
-            url={val.url}
-            content={val.description}
-            date={val.publishedAt}
-          />
-        );
-      })}
+      <div className="h-[900px]">
+        {paginatedArticles.map((val) => {
+          return (
+            <Article
+              key={val.url}
+              img_url={val.urlToImage}
+              title={val.title}
+              url={val.url}
+              content={val.description}
+              date={val.publishedAt}
+            />
+          );
+        })}
+      </div>
       <Paginator
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
         showPreviousNext
       />
-      
     </div>
   );
 }

@@ -30,7 +30,7 @@ export default function Paginator({
             <PaginationPrevious
               onClick={() => onPageChange(currentPage - 1)}
               hidden={currentPage - 1 < 1}
-              className="text-secondary-foreground"
+              className="text-secondary-foreground cursor-pointer"
             />
           </PaginationItem>
         ) : null}
@@ -40,7 +40,7 @@ export default function Paginator({
             <PaginationNext
               onClick={() => onPageChange(currentPage + 1)}
               hidden={currentPage > totalPages - 1}
-              className="text-secondary-foreground"
+              className="text-secondary-foreground cursor-pointer"
             />
           </PaginationItem>
         ) : null}

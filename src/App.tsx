@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { DataCard, SourcesCard, NothingToShow, Loader } from "./components";
-import { SearchBar } from "./components/SearchBar";
+import { DataCard, SourcesCard, Loader } from "./components";
 import { FakeNewsList } from "./features/FakeNewsList";
+import SentimentChart from "./components/sentimentCard";
+import { SearchBar } from "./features/SearchBar";
 type FinalResult = {
   trustRating: number;
   clickbaitRating: number;
+  sentiment: {
+    positive: number;
+    negative: number;
+    neutral: number;
+  };
   sources: {
     sourceData: {
       sourceLogo: string;
@@ -25,8 +31,9 @@ type DataToSend = {
 const App: React.FC = () => {
   const [displayData, setDisplayData] = useState(false);
   const [finalResult, setFinalResult] = useState<FinalResult | null>(null);
-  const [isDisappearing, setIsDisappearing] = useState(false); // New state
+  const [isDisappearing, setIsDisappearing] = useState(false); //new state
   const [isLoading, setIsLoading] = useState(false);
+  const [subwaySurf, setSubwaySurf] = useState<boolean | null>(false);
   const [shrinked, setShrinked] = useState(false);
 
   const processInput = (input: string) => {
@@ -40,35 +47,14 @@ const App: React.FC = () => {
     const data = input.startsWith("http")
       ? { url: input, text: null }
       : { url: null, text: input };
-
+    if(input.startsWith("http")){
+      setSubwaySurf(false);
+    }else{
+      setSubwaySurf(true);
+    }
     fetchResult(data);
   };
   const fetchResult = async (data: DataToSend) => {
-    const response = await fetch(
-      "https://stopfals.md/archive/filter?page=1&order=desc&date=01%2F23%2F2025&lang=ro",
-      {
-        headers: {
-          accept: "*/*",
-          "accept-language": "en-US,en;q=0.9,ru;q=0.8",
-          "cache-control": "no-cache",
-          pragma: "no-cache",
-          priority: "u=1, i",
-          "sec-ch-ua": '"Not A(Brand";v="8", "Chromium";v="132"',
-          "sec-ch-ua-mobile": "?1",
-          "sec-ch-ua-platform": '"Android"',
-          "sec-fetch-dest": "empty",
-          "sec-fetch-mode": "no-cors",
-          "sec-fetch-site": "same-origin",
-          "x-requested-with": "XMLHttpRequest",
-          cookie: "lang=ro",
-          Referer: "https://stopfals.md/ro/archive",
-          "Referrer-Policy": "strict-origin-when-cross-origin",
-        },
-        body: null,
-        method: "GET",
-      },
-    );
-    console.log(response.json());
     /*try {
       let result = await fetch("http://localhost:6969/get-info", {
         method: "POST",
@@ -110,7 +96,8 @@ const App: React.FC = () => {
           url: request.pageUrl,
           text: request.selectionText,
         };
-
+        setShrinked(true);
+        setSubwaySurf(false);
         setIsLoading(true);
         fetchResult(data);
 
@@ -129,6 +116,11 @@ const App: React.FC = () => {
   const finalResultM = {
     trustRating: 59,
     clickbaitRating: 100,
+    sentiment: {
+      positive: 40,
+      negative: 50,
+      neutral: 10,
+    },
     sources: [
       {
         sourceData: [
@@ -167,7 +159,7 @@ const App: React.FC = () => {
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">Fact checker</h1>
       <SearchBar onClick={processInput} shrinked={shrinked} />
       {isLoading ? (
-        <Loader />
+        <Loader subwaySurf={subwaySurf}/>
       ) : displayData && finalResultM ? (
         <div
           className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}
@@ -184,6 +176,12 @@ const App: React.FC = () => {
               rating={finalResultM.clickbaitRating}
               className="opacity-0 slide-up delay-2 z-0"
               higherIsBetter={false}
+            />
+            <SentimentChart
+              className="opacity-0 slide-up delay-4"
+              positive={finalResultM.sentiment.positive}
+              neutral={finalResultM.sentiment.negative}
+              negative={finalResultM.sentiment.negative}
             />
           </div>
           <div className="flex flex-col gap-10">

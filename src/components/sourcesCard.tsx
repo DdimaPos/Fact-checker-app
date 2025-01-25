@@ -24,7 +24,7 @@ export const SourcesCard = ({
   className,
 }: Props) => {
   return (
-    <div className={cn(className, "w-[600px] ")}>
+    <div className={cn(className, "max-w-[600px] ")}>
       <Card className="flex flex-col p-2 gap-3">
         <CardTitle className=" m-auto text-foreground w-fit text-[25px]">
           {title}

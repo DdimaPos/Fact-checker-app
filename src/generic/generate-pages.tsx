@@ -32,7 +32,7 @@ export const generatePaginationLinks = (
       pages.push(
         <PaginationItem key={i}>
           <PaginationLink
-            className="text-secondary-foreground"
+            className="text-secondary-foreground cursor-pointer"
             onClick={() => onPageChange(i)}
             isActive={i === currentPage}
           >
@@ -42,11 +42,11 @@ export const generatePaginationLinks = (
       );
     }
     if (2 < currentPage && currentPage < totalPages - 1) {
-      pages.push(<PaginationEllipsis className="text-secondary-foreground" />);
+      pages.push(<PaginationEllipsis className="text-secondary-foreground cursor-pointerd" />);
       pages.push(
         <PaginationItem key={currentPage}>
           <PaginationLink
-            className="text-secondary-foreground"
+            className="text-secondary-foreground cursor-pointer"
             onClick={() => onPageChange(currentPage)}
             isActive={true}
           >
@@ -60,7 +60,7 @@ export const generatePaginationLinks = (
       pages.push(
         <PaginationItem key={i}>
           <PaginationLink
-            className="text-secondary-foreground"
+            className="text-secondary-foreground cursor-pointer"
             onClick={() => onPageChange(i)}
             isActive={i === currentPage}
           >

@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
 import Tesseract from "tesseract.js";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
 import styles from "./index.module.scss";
-import { Camera, LoaderIcon } from "lucide-react";
-import { Loader } from "../loader";
+import { Camera, Loader2, LoaderIcon } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 interface Props {
   onClick: Function;
   shrinked: boolean;
@@ -21,9 +20,12 @@ export const SearchBar = ({ onClick, shrinked }: Props) => {
   const inputFileRef = useRef<any>();
   const takePhoto = () => {
     inputFileRef.current.click();
+    console.log("clicked on upload button")
   };
-  const extractText = (e: any) => {
-    if (!e.target.files) return;
+  const extractText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (!e.target.files || e.target.files.length === 0) return;
+    console.log("target has images")
     var image = e.target.files[0];
     if (!image) {
       alert("Please upload an image first!");
@@ -69,7 +71,7 @@ export const SearchBar = ({ onClick, shrinked }: Props) => {
           onClick={takePhoto}
           disabled={!imageLoading ? false : true}
         >
-          {!imageLoading ? <Camera /> : <LoaderIcon />}
+          {!imageLoading ? <Camera /> :<Loader2 className="animate-spin" />}
         </Button>
         <input
           ref={inputFileRef}
@@ -80,4 +82,4 @@ export const SearchBar = ({ onClick, shrinked }: Props) => {
       </div>
     </div>
   );
-};
+}

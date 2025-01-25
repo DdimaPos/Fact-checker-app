@@ -3,15 +3,16 @@
 
   flex-direction: column;
 }
-
+TextArea{
+  width: 75%;
+}
 .default {
   display: flex;
   gap: 20px;
-  height: 300px;
+  height: 200px;
 
   TextArea {
-    width: 75%;
-    height: 300px;
+    height: 200px;
   }
 
   .button__group {
@@ -35,7 +36,6 @@
   }
 
   TextArea {
-    width: 75%;
     height: 70px;
     transition: 0.7s;
   }
