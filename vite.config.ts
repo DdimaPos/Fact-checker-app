@@ -10,19 +10,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  /*build: {
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, "src/main.tsx"), // Main app entry
-        content: resolve(__dirname, "src/content/content.js"), // Content script, if needed
-        background: resolve(__dirname, "src/background/background.js"), // Background script
-      },
-      output: {
-        entryFileNames: "assets/[name].js",
-      },
-    },
-  },*/
-
+  server:{
+    port:5173
+  },
   build: {
     rollupOptions: {
       input: {

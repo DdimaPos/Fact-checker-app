@@ -9,19 +9,17 @@ interface Source {
   text: string;
 }
 
-interface Sources {
-  sourceData: Source[]; //sourceData is an array of Source objects
-  controversial: boolean;
-}
 interface Props {
   title: string;
-  sources: Sources;
+  sources: Source[];
   className?: string;
+  good: boolean;
 }
 export const SourcesCard = ({
   title,
   sources,
   className,
+  good
 }: Props) => {
   return (
     <div className={cn(className, "max-w-[600px] ")}>
@@ -30,8 +28,8 @@ export const SourcesCard = ({
           {title}
         </CardTitle>
         <CardContent className="flex gap-[20px] flex-col max-h-[500px] overflow-y-auto">
-          {sources.sourceData != null
-            ? sources.sourceData.map((source, i) => {
+          {sources != null
+            ? sources.map((source, i) => {
                 return (
                   <section key={i}>
                     <div className="mb-4 flex items-center gap-[10px]">
@@ -59,7 +57,7 @@ export const SourcesCard = ({
                       <span className="text-[12] font-thin"><Link size={12}/></span></a>
                     </div>
                     <div
-                      className={`rounded-[10px] p-5 text-white text-[14px] ${!sources.controversial ? "bg-primary" : "bg-destructive"}`}
+                      className={`rounded-[10px] p-5 text-white text-[14px] ${good ? "bg-primary" : "bg-destructive"}`}
                     >
                       ..."
                       <span className="italic">{source.text}</span>

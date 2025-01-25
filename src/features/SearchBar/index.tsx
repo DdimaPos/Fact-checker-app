@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Tesseract from "tesseract.js";
 import styles from "./index.module.scss";
-import { Camera, Loader2, LoaderIcon } from "lucide-react";
+import { Camera, Loader2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 interface Props {
@@ -71,7 +71,7 @@ export const SearchBar = ({ onClick, shrinked }: Props) => {
           onClick={takePhoto}
           disabled={!imageLoading ? false : true}
         >
-          {!imageLoading ? <Camera /> :<Loader2 className="animate-spin" />}
+          {!imageLoading ? <Camera size={22}/> :<Loader2 className="animate-spin" />}
         </Button>
         <input
           ref={inputFileRef}

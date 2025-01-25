@@ -4,6 +4,7 @@ import { DataCard, SourcesCard, Loader } from "./components";
 import { FakeNewsList } from "./features/FakeNewsList";
 import SentimentChart from "./components/sentimentCard";
 import { SearchBar } from "./features/SearchBar";
+import NetworkGraph from "./features/NetworkGraph";
 type FinalResult = {
   trustRating: number;
   clickbaitRating: number;
@@ -12,15 +13,23 @@ type FinalResult = {
     negative: number;
     neutral: number;
   };
-  sources: {
-    sourceData: {
+  
+  confirming: [
+    {
       sourceLogo: string;
       sourceUrl: string;
       sourceName: string;
       text: string;
-    }[];
-    controversial: boolean; // Flag indicating if the sources are controversial
-  }[];
+    },
+  ],
+  denying: [
+    {
+      sourceLogo: string;
+      sourceUrl: string;
+      sourceName: string;
+      text: string;
+    },
+  ],
 };
 
 type DataToSend = {
@@ -35,6 +44,37 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [subwaySurf, setSubwaySurf] = useState<boolean | null>(false);
   const [shrinked, setShrinked] = useState(false);
+  const fetchResult = async (data: DataToSend) => {
+    try {
+      let result = await fetch("http://localhost:6969/get-info", {
+        method: "POST",
+        headers: {
+          //"Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      let recievedData = await result.json();
+      console.log(recievedData);
+      setFinalResult(recievedData);
+      setDisplayData(true);
+    } catch (err: any) {
+      console.error(err.message);
+      setDisplayData(true);
+    } finally {
+      setIsLoading(false);
+    }
+
+    //timeout for debugging
+    /*setTimeout(() => {
+      //logs to avoid error when debugging
+      console.log(finalResult);
+      console.log(data);
+
+      setFinalResult(null);
+      setDisplayData(true);
+      setIsLoading(false);
+    }, 2000);*/
+  };
 
   const processInput = (input: string) => {
     setShrinked(true);
@@ -47,42 +87,12 @@ const App: React.FC = () => {
     const data = input.startsWith("http")
       ? { url: input, text: null }
       : { url: null, text: input };
-    if(input.startsWith("http")){
+    if (input.startsWith("http")) {
       setSubwaySurf(false);
-    }else{
+    } else {
       setSubwaySurf(true);
     }
     fetchResult(data);
-  };
-  const fetchResult = async (data: DataToSend) => {
-    /*try {
-      let result = await fetch("http://localhost:6969/get-info", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      let recievedData = await result.json();
-      setFinalResult(recievedData);
-      setDisplayData(true);
-    } catch (err: any) {
-      console.error(err.message);
-      setDisplayData(true);
-    } finally {
-      setIsLoading(false);
-    }*/
-
-    //timeout for debugging
-    setTimeout(() => {
-      //logs to avoid error when debugging
-      console.log(finalResult);
-      console.log(data);
-
-      setFinalResult(null);
-      setDisplayData(true);
-      setIsLoading(false);
-    }, 2000);
   };
   ///for extension's right click
   useEffect(() => {
@@ -113,7 +123,7 @@ const App: React.FC = () => {
   }, []);
 
   //Mock data
-  const finalResultM = {
+  /*const finalResultM = {
     trustRating: 59,
     clickbaitRating: 100,
     sentiment: {
@@ -153,46 +163,48 @@ const App: React.FC = () => {
         controversial: true,
       },
     ],
-  };
+  };*/
   return (
     <div className="max-w-[1200px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">Fact checker</h1>
       <SearchBar onClick={processInput} shrinked={shrinked} />
       {isLoading ? (
-        <Loader subwaySurf={subwaySurf}/>
-      ) : displayData && finalResultM ? (
+        <Loader subwaySurf={subwaySurf} />
+      ) : displayData && finalResult ? (
         <div
           className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}
         >
           <div className="flex flex-col gap-10 sticky z-50">
             <DataCard
               title="Overall solidity rating"
-              rating={finalResultM.trustRating}
+              rating={finalResult.trustRating}
               className="opacity-0 slide-up delay-1 z-10"
               higherIsBetter={true}
             />
             <DataCard
               title="Clickbait rating"
-              rating={finalResultM.clickbaitRating}
+              rating={finalResult.clickbaitRating}
               className="opacity-0 slide-up delay-2 z-0"
               higherIsBetter={false}
             />
             <SentimentChart
               className="opacity-0 slide-up delay-4"
-              positive={finalResultM.sentiment.positive}
-              neutral={finalResultM.sentiment.negative}
-              negative={finalResultM.sentiment.negative}
+              positive={finalResult.sentiment.positive}
+              neutral={finalResult.sentiment.negative}
+              negative={finalResult.sentiment.negative}
             />
           </div>
           <div className="flex flex-col gap-10">
             <SourcesCard
               title="Sources with similar information"
-              sources={finalResultM.sources[0]}
+              sources={finalResult.confirming}
+              good={true}
               className="opacity-0 slide-up delay-3"
             />
             <SourcesCard
               title="Sources with diverging information"
-              sources={finalResultM.sources[1]}
+              sources={finalResult.denying}
+              good={false}
               className="opacity-0 slide-up delay-4"
             />
           </div>
@@ -200,8 +212,8 @@ const App: React.FC = () => {
       ) : (
         <FakeNewsList />
       )}
+      <NetworkGraph/>
     </div>
   );
 };
-
 export default App;
