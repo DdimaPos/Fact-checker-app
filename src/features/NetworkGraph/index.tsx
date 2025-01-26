@@ -19,13 +19,15 @@ interface Props{
 }
 const NetworkGraph = ({url}:Props) => {
   const svgRef = useRef(null);
-  const [data, setData] = useState<Nodes | null>(null);
+  const [data, setData] = useState<Nodes>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   useEffect(() => {
     const fetchData = async() => {
       var toSend = {
-        url: url
+        content: "EMPTY",
+        contentUri: url,
+        language: "ron"
       }
       try{
         let response = await fetch("link", {
@@ -54,7 +56,7 @@ const NetworkGraph = ({url}:Props) => {
       </Card>
     );
   }
-  if (error) {
+  if (error || !data?.nodes) {
     return (
       <Card className="flex flex-col p-2 gap-3">
         <CardTitle className=" m-auto text-foreground w-fit text-[25px]">

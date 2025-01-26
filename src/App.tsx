@@ -46,7 +46,7 @@ const App: React.FC = () => {
   const [shrinked, setShrinked] = useState(false);
   const [graphInput, setGraphInput] = useState("");
   const fetchResult = async (data: DataToSend) => {
-    /*try {
+    try {
       let result = await fetch("http://localhost:6969/get-info", {
         method: "POST",
         headers: {
@@ -63,10 +63,10 @@ const App: React.FC = () => {
       setDisplayData(true);
     } finally {
       setIsLoading(false);
-    }*/
+    }
 
     //timeout for debugging
-    setTimeout(() => {
+    /*setTimeout(() => {
       //logs to avoid error when debugging
       console.log(finalResult);
       console.log(data);
@@ -74,7 +74,7 @@ const App: React.FC = () => {
       setFinalResult(null);
       setDisplayData(true);
       setIsLoading(false);
-    }, 2000);
+    }, 2000);*/
   };
 
   const processInput = (input: string) => {
@@ -112,7 +112,7 @@ const App: React.FC = () => {
         setSubwaySurf(false);
         setIsLoading(true);
         fetchResult(data);
-        setGraphInput(request.pageUrl)
+        setGraphInput(request.pageUrl);
         sendResponse({ status: "Message received in App.tsx" });
       };
 
@@ -125,7 +125,7 @@ const App: React.FC = () => {
   }, []);
 
   //Mock data
-  const finalResultM = {
+  /*const finalResultM = {
     trustRating: 59,
     clickbaitRating: 100,
     sentiment: {
@@ -158,51 +158,51 @@ const App: React.FC = () => {
         text: "lorem ipsum dolor",
       },
     ],
-  };
+  };*/
   return (
     <div className="max-w-[1200px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">News Lens</h1>
       <SearchBar onClick={processInput} shrinked={shrinked} />
       {isLoading ? (
         <Loader subwaySurf={subwaySurf} />
-      ) : displayData && finalResultM ? (
+      ) : displayData && finalResult ? (
         <div
           className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}
         >
           <div className="flex flex-col gap-10 sticky z-50">
             <DataCard
               title="Overall solidity rating"
-              rating={finalResultM.trustRating}
+              rating={finalResult.trustRating}
               className="opacity-0 slide-up delay-1 z-10"
               higherIsBetter={true}
             />
             <DataCard
               title="Clickbait rating"
-              rating={finalResultM.clickbaitRating}
+              rating={finalResult.clickbaitRating}
               className="opacity-0 slide-up delay-2 z-0"
               higherIsBetter={false}
             />
             <SentimentChart
               className="opacity-0 slide-up delay-4"
-              positive={finalResultM.sentiment.positive}
-              neutral={finalResultM.sentiment.negative}
-              negative={finalResultM.sentiment.negative}
+              positive={finalResult.sentiment.positive}
+              neutral={finalResult.sentiment.negative}
+              negative={finalResult.sentiment.negative}
             />
           </div>
           <div className="flex flex-col gap-10">
             <SourcesCard
               title="Sources with similar information"
-              sources={finalResultM.confirming}
+              sources={finalResult.confirming}
               good={true}
               className="opacity-0 slide-up delay-3"
             />
             <SourcesCard
               title="Sources with diverging information"
-              sources={finalResultM.denying}
+              sources={finalResult.denying}
               good={false}
               className="opacity-0 slide-up delay-4"
             />
-            <NetworkGraph url={graphInput}/>
+            <NetworkGraph url={graphInput} />
           </div>
         </div>
       ) : (
