@@ -161,7 +161,7 @@ const App: React.FC = () => {
   };
   return (
     <div className="max-w-[1200px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
-      <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">Fact checker</h1>
+      <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">News Lens</h1>
       <SearchBar onClick={processInput} shrinked={shrinked} />
       {isLoading ? (
         <Loader subwaySurf={subwaySurf} />
