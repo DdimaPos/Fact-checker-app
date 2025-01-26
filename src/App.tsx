@@ -22,14 +22,14 @@ type FinalResult = {
       text: string;
     },
   ];
-  denying: [
+  /*denying: [
     {
       sourceLogo: string;
       sourceUrl: string;
       sourceName: string;
       text: string;
     },
-  ];
+  ];*/
 };
 
 type DataToSend = {
@@ -50,7 +50,7 @@ const App: React.FC = () => {
       let result = await fetch("http://localhost:6969/get-info", {
         method: "POST",
         headers: {
-          //"Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
@@ -124,41 +124,6 @@ const App: React.FC = () => {
     }
   }, []);
 
-  //Mock data
-  /*const finalResultM = {
-    trustRating: 59,
-    clickbaitRating: 100,
-    sentiment: {
-      positive: 40,
-      negative: 50,
-      neutral: 10,
-    },
-    confirming: [
-      {
-        sourceLogo: "https://point.md/static/images/logo-og.png",
-        sourceUrl: "https://www.google.com",
-        sourceName: "Point.md",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
-      },
-      {
-        sourceLogo:
-          "https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png",
-        sourceUrl: "https://www.google.com",
-        sourceName: "Google",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
-      },
-    ],
-
-    denying: [
-      {
-        sourceLogo:
-          "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png",
-        sourceUrl: "https://www.google.com",
-        sourceName: "Google",
-        text: "lorem ipsum dolor",
-      },
-    ],
-  };*/
   return (
     <div className="max-w-[1200px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">News Lens</h1>
@@ -196,14 +161,17 @@ const App: React.FC = () => {
               good={true}
               className="opacity-0 slide-up delay-3"
             />
-            <SourcesCard
+            {/*<SourcesCard
               title="Sources with diverging information"
               sources={finalResult.denying}
               good={false}
               className="opacity-0 slide-up delay-4"
-            />
-            <NetworkGraph url={graphInput} />
+            />*/}
+            
           </div>
+            {graphInput && (
+              <NetworkGraph className="slide-up delay-3" url={graphInput} />
+            )}
         </div>
       ) : (
         <FakeNewsList />
