@@ -14,29 +14,22 @@ interface Nodes {
     target: string;
   };
 }
-interface Props{
-  url: string;
-}
-const NetworkGraph = ({url}:Props) => {
+
+const NetworkGraph = () => {
   const svgRef = useRef(null);
   const [data, setData] = useState<Nodes | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   useEffect(() => {
     const fetchData = async() => {
-      var toSend = {
-        url: url
-      }
       try{
         let response = await fetch("link", {
-          body: JSON.stringify(toSend)
+          body: 
         })
         let respData= await response.json()
         setData(respData)
       }catch(err){
-        setError("error fetching data for graph")
-      }finally{
-        setLoading(false);
+
       }
     };
     fetchData();

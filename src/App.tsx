@@ -13,7 +13,7 @@ type FinalResult = {
     negative: number;
     neutral: number;
   };
-  
+
   confirming: [
     {
       sourceLogo: string;
@@ -21,7 +21,7 @@ type FinalResult = {
       sourceName: string;
       text: string;
     },
-  ],
+  ];
   denying: [
     {
       sourceLogo: string;
@@ -29,7 +29,7 @@ type FinalResult = {
       sourceName: string;
       text: string;
     },
-  ],
+  ];
 };
 
 type DataToSend = {
@@ -44,8 +44,9 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [subwaySurf, setSubwaySurf] = useState<boolean | null>(false);
   const [shrinked, setShrinked] = useState(false);
+  const [graphInput, setGraphInput] = useState("");
   const fetchResult = async (data: DataToSend) => {
-    try {
+    /*try {
       let result = await fetch("http://localhost:6969/get-info", {
         method: "POST",
         headers: {
@@ -62,10 +63,10 @@ const App: React.FC = () => {
       setDisplayData(true);
     } finally {
       setIsLoading(false);
-    }
+    }*/
 
     //timeout for debugging
-    /*setTimeout(() => {
+    setTimeout(() => {
       //logs to avoid error when debugging
       console.log(finalResult);
       console.log(data);
@@ -73,7 +74,7 @@ const App: React.FC = () => {
       setFinalResult(null);
       setDisplayData(true);
       setIsLoading(false);
-    }, 2000);*/
+    }, 2000);
   };
 
   const processInput = (input: string) => {
@@ -89,6 +90,7 @@ const App: React.FC = () => {
       : { url: null, text: input };
     if (input.startsWith("http")) {
       setSubwaySurf(false);
+      setGraphInput(input);
     } else {
       setSubwaySurf(true);
     }
@@ -110,7 +112,7 @@ const App: React.FC = () => {
         setSubwaySurf(false);
         setIsLoading(true);
         fetchResult(data);
-
+        setGraphInput(request.pageUrl)
         sendResponse({ status: "Message received in App.tsx" });
       };
 
@@ -123,7 +125,7 @@ const App: React.FC = () => {
   }, []);
 
   //Mock data
-  /*const finalResultM = {
+  const finalResultM = {
     trustRating: 59,
     clickbaitRating: 100,
     sentiment: {
@@ -131,88 +133,82 @@ const App: React.FC = () => {
       negative: 50,
       neutral: 10,
     },
-    sources: [
+    confirming: [
       {
-        sourceData: [
-          {
-            sourceLogo: "https://point.md/static/images/logo-og.png",
-            sourceUrl: "https://www.google.com",
-            sourceName: "Point.md",
-            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
-          },
-          {
-            sourceLogo:
-              "https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png",
-            sourceUrl: "https://www.google.com",
-            sourceName: "Google",
-            text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
-          },
-        ],
-        controversial: false,
+        sourceLogo: "https://point.md/static/images/logo-og.png",
+        sourceUrl: "https://www.google.com",
+        sourceName: "Point.md",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
       },
       {
-        sourceData: [
-          {
-            sourceLogo:
-              "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png",
-            sourceUrl: "https://www.google.com",
-            sourceName: "Google",
-            text: "lorem ipsum dolor",
-          },
-        ],
-        controversial: true,
+        sourceLogo:
+          "https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png",
+        sourceUrl: "https://www.google.com",
+        sourceName: "Google",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus dignissim orci, at vulputate diam. Integer ut ex a orci faucibus iaculis. Etiam nec auctor dui. Vivamus eu quam tellus. Cras nisl nisi, semper eget nisl eget, egestas rutrum turpis. Aenean malesuada ullamcorper ante et varius. Nam eleifend non eros ut volutpat. Suspendisse vitae nunc ut arcu pretium porta nec id tellus. Curabitur augue tellus, cursus id facilisis eget, elementum nec metus. Donec felis ante, porttitor non vestibulum eu, finibus at neque. Fusce ultrices risus quis lorem sollicitudin fermentum. Nunc faucibus ante sed magna suscipit, a imperdiet quam pretium. Vestibulum blandit tincidunt enim.",
       },
     ],
-  };*/
+
+    denying: [
+      {
+        sourceLogo:
+          "https://www.hubspot.com/hs-fs/hubfs/McDonalds_Golden_Arches.svg.png",
+        sourceUrl: "https://www.google.com",
+        sourceName: "Google",
+        text: "lorem ipsum dolor",
+      },
+    ],
+  };
   return (
     <div className="max-w-[1200px] m-auto flex flex-col min-h-[300px] min-w-[500px]">
       <h1 className="text-6xl m-auto mt-4 mb-4 w-fit">Fact checker</h1>
       <SearchBar onClick={processInput} shrinked={shrinked} />
       {isLoading ? (
         <Loader subwaySurf={subwaySurf} />
-      ) : displayData && finalResult ? (
+      ) : displayData && finalResultM ? (
         <div
           className={`flex mt-4 flex-wrap justify-center gap-4 ${isDisappearing ? "fade-out" : ""}`}
         >
           <div className="flex flex-col gap-10 sticky z-50">
             <DataCard
               title="Overall solidity rating"
-              rating={finalResult.trustRating}
+              rating={finalResultM.trustRating}
               className="opacity-0 slide-up delay-1 z-10"
               higherIsBetter={true}
             />
             <DataCard
               title="Clickbait rating"
-              rating={finalResult.clickbaitRating}
+              rating={finalResultM.clickbaitRating}
               className="opacity-0 slide-up delay-2 z-0"
               higherIsBetter={false}
             />
             <SentimentChart
               className="opacity-0 slide-up delay-4"
-              positive={finalResult.sentiment.positive}
-              neutral={finalResult.sentiment.negative}
-              negative={finalResult.sentiment.negative}
+              positive={finalResultM.sentiment.positive}
+              neutral={finalResultM.sentiment.negative}
+              negative={finalResultM.sentiment.negative}
             />
           </div>
           <div className="flex flex-col gap-10">
             <SourcesCard
               title="Sources with similar information"
-              sources={finalResult.confirming}
+              sources={finalResultM.confirming}
               good={true}
               className="opacity-0 slide-up delay-3"
             />
             <SourcesCard
               title="Sources with diverging information"
-              sources={finalResult.denying}
+              sources={finalResultM.denying}
               good={false}
               className="opacity-0 slide-up delay-4"
             />
+            <NetworkGraph url={graphInput}/>
           </div>
         </div>
       ) : (
         <FakeNewsList />
       )}
-      <NetworkGraph/>
+      {/*<NetworkGraph />*/}
     </div>
   );
 };
